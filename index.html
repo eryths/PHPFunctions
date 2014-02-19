@@ -1,25 +1,33 @@
 <!--PHPFunctions - Main HTML
 
-    Version 2014-02-18
+    Version 2014-02-19
 -->
 <!DOCTYPE html>
 <html>
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     <title>Быстрый поиск функций PHP по имени</title>
-	<link href="template.css" type="text/css" rel="stylesheet">
-
+	<link rel="stylesheet" href="bootstrap.min.css">
+	<link rel="stylesheet" href="template.css">
+    <link rel="shortcut icon" href="favicon.ico">
   </head>
   <body>
-    <input size="50" type="text" name="query" id="query" value="" placeholder="Часть имени PHP функции">
-    <hr>
-    
-    <div id="result"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div id="input">
+            <input size="50" type="text" name="query" id="query" class="form-control" value="" placeholder="Часть имени PHP функции">
+          </div>
+          <div id="result"></div>  
+        </div>
+      </div>
+    </div>
     
     <!-- JS -->
     <script src="functionsJson.js"></script>
     <script src="jquery.js"></script>
     <script src="script.js"></script>
     <!-- /JS -->
+    
   </body>
 </html>

@@ -1,26 +1,28 @@
 /*  PHPFunctions - Main JavaScript
 
-    Version 2014-02-18
+    Version 2014-02-19
 */
 
 
-var elEesult = $('#result');
 var elQuery = $("#query");
+var elEesult = $('#result');
+
+elQuery.focus();
 
 // Получим HTML код с информацией о функции
 function getHtml(functionInfo) {
 
     var html = '';
-    html += '<div class="functionInfo">';
-    html += '<div class="head"><span class="name">'+functionInfo['name']+'</span>';
+    html += '<li class="functionInfo list-group-item">';
+    html += '<h4 class="head"><span class="name">'+functionInfo['name']+'</span>';
     html += ' - <span class="shortdesc">' + functionInfo['shortdesc'] + '</span>';
-    html += '<span class="version"> ' + functionInfo['version'] + '</span>';
-    html += '</div>';
+    html += '<span class="version label label-info pull-right"> ' + functionInfo['version'] + '</span>';
+    html += '</h4>';
 
-    html += '<div class="syntax">'+functionInfo['syntax']+'</div>';
-    html += '<div class="desc">'+functionInfo['desc']+'</div>';
-    html += '<div class="link"><a target="_blank" href="http://ru2.php.net/ru/'+functionInfo['name']+'">отрыть на php.net</a></div>';
-    html += '</div><hr>';   
+    html += '<p class="syntax">'+functionInfo['syntax']+'</p>';
+    html += '<p class="desc text-info">'+functionInfo['desc']+'</p>';
+    html += '<div class="link"><a class="btn btn-default btn-sm" target="_blank" href="http://ru2.php.net/ru/'+functionInfo['name']+'">отрыть на php.net</a></div>';
+    html += '</li>';   
 
     return html;
     
@@ -29,11 +31,14 @@ function getHtml(functionInfo) {
 // Поиск по названию функции
 function search() {
 
-    elEesult.html('');
+    var query = elQuery.val();
 
-    var query = $(elQuery).val();
-
-    if (query.length < 2) return false;
+    // Минимальная длина поискового запроса - 2 символа
+    if (query.length < 2) 
+    {
+        elEesult.html('<div class="alert alert-info">Введите 2 и более символа в поисковую строку</div>');
+        return false;
+    }
     
     // Массив с HTML функций с разным приоритетом
     var htmlFunctions = ['',''];
@@ -56,12 +61,16 @@ function search() {
         }
     }
 
-    if(htmlFunctions[0] != '') htmlFunctions[0] += "<br><hr>";
-    elEesult.append(htmlFunctions.join(''));
-
-    console.log(htmlFunctions);
-  
-  
+    // Объеденим группы результатов через разделитель и обернем тегом списка
+    var searchResult = '';
+    
+    if (htmlFunctions[0] == '' && htmlFunctions[1] == '') {
+        searchResult ='<div class="alert alert-warning">Ничего не найдено</div>';
+    } else {
+        searchResult = '<ul class="list-group">' + htmlFunctions.join('<hr>') + '</ul>';
+    }
+    
+    elEesult.html(searchResult);
 }
 
 elQuery.change(function(){
@@ -75,4 +84,3 @@ elQuery.keyup(function(){
 search();
 
 
-// console.log(functionsJson['abs']);
